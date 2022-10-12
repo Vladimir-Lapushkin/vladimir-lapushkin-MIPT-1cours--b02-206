@@ -1,0 +1,54 @@
+#Упражнение0
+A = set('bqlpzlkwehrlulsdhfliuywemrlkjhsdlfjhlzxcovt')
+B = set('zmxcvnboaiyerjhbziuxdytvasenbriutsdvinjhgik')
+print(A-B)
+#Упражнение1
+a=input().split()
+print(set(a[0])&set(a[1])&set(a[2]))
+#Упражнение2
+a=input().split()
+b=set(a[0])
+for i in range(len(a)):
+    b=b&set(a[i])
+print(b)
+#Упражнение3
+a=input().split()
+b=set(a[0])
+i=0
+while i<len(a)
+    i=i+1
+    b=b&set(a[i])
+print(b)
+#Упражнение4
+e= {i: chr(i) for i in range(97, 123)}
+print(e)
+#Упражнение5
+d={i: chr(i+97) for i in range(97,123)}
+print(d)
+#Упражнение6
+d={i: chr(i+97) for i in range(26)}
+a=input()
+b=0
+for i in range(26):
+    if set(d[i])&set(a)==set(d[i]):
+        b=b+i+1
+print(b)
+#Упражнение7
+n = int(input())
+d = dict()
+for i in range(n):
+    s=input().split()
+    d[s[0]]=s[1]
+s=input()
+if s in set(d.keys()):
+    print(d[s])
+else:
+    for i in range(n):
+        if d[list(d.keys())[i]]==s:
+            print(list(d.keys())[i])
+#Упражнение8
+a = input().translate({ord(i): None for i in '1234567890 '})
+n = len(a)
+while len(a)>0:
+    print(a[0], "-", a.count(a[0]) / n)
+    a=a.translate({ord(a[0]): None})
