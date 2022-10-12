@@ -1,0 +1,84 @@
+import pandas as pd
+import numpy as np
+import random
+
+
+# упражнение 3
+f = pd.read_csv("telecom_churn.csv")
+tmean = f[['Total day calls']].mean()['Total day calls']
+print(tmean)
+
+# упражнение 4
+print(f.groupby(["State"]).agg({"Total day calls": "mean"}).loc["LA"])
+
+# упражнение 5
+tdc = f.groupby(["State"]).agg({"Total day calls": "mean"})
+print(tdc)
+
+# упражнение 6
+tdc_overmean = tdc[tdc['Total day calls'] >= tmean]
+print(tdc_overmean)
+
+# упражнение 7
+day_eve = f.groupby(["State"]).agg({"Total day calls": "mean", "Total eve calls": "mean"})
+print(day_eve)
+
+# упражнение 8
+day_eve['d > e'] = day_eve["Total day calls"] > day_eve["Total eve calls"]
+print(day_eve)
+
+# упражнение 9
+f['obaplana'] = (f['International plan'] == 'Yes') & (f["Voice mail plan"] == 'Yes')
+doly = f[['obaplana']].mean()
+print(doly)
+
+# упражнение 10
+uac = f['Area code'].nunique()
+print(uac)
+
+# упражнение 11
+servcalls = f.groupby(["Customer service calls"]).agg({"Customer service calls": "count"})
+print(servcalls)
+
+# упражнение 12
+sc = f.groupby(["Customer service calls"]).agg({"Churn": "mean"})
+print(sc)
+import matplotlib.pyplot as plt
+fig = plt.figure(figsize=(7, 4))
+ax = fig.add_subplot()
+ax.scatter(sc.index.values, sc['Churn'])
+ax.set_xlabel('Customer service calls')
+ax.set_ylabel('Churn doly')
+plt.grid()
+plt.show()
+
+# упражнение 13
+intlmean = f[['Total intl calls']].mean()['Total intl calls']
+print(intlmean)
+
+# упражнение 15
+inchf = f['Total day charge'][f.Churn == False].sum()
+incht = f['Total day charge'][f.Churn == True].sum()
+if incht > inchf:
+    print('оставшихся меньше')
+else:
+    print('ушедших меньше')
+
+# упражнение 16
+ans16 = f.groupby(["State"]).agg({"Total day charge": "mean"}).sort_values(by="Total day charge", ascending = True)
+print(*ans16.index)
+
+# упражнение 17
+tdc = f.groupby(["State"]).agg({"Total day calls": "mean"})
+
+# упражнение 18
+a = f.loc[[100, 102, 104], ["State", "Churn"]]
+print(a)
+
+# упражнение 19
+ndf = pd.DataFrame({"x": np.random.rand(10), "y": np.random.rand(10)})
+ndf["x^2 + y^2"] = (ndf["x"])**2 + (ndf["y"])**2
+print(ndf)
+
+# упражнение 20
+ndf["mean"] = (ndf["x"])**2 + (ndf["y"])**2
