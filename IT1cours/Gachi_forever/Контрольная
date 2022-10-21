@@ -1,0 +1,75 @@
+#Упражнение 1
+print(float(input())**2)
+#Упражнение 2
+print(len(input()))
+#Упражнение 3
+a=input().split()
+i=0
+q=0
+while i < len(a):
+    j=0
+    while j < len(a[i])-2:
+        if (a[i][j]=='s' and a[i][j+1]=='u' and a[i][j+2]=='s'):
+            q=q+1
+            j=len(a[i])
+        j=j+1
+    i=i+1
+print(q)
+#Упражнение 4 -2
+#Упражнение 5
+if len(list_of_smth)%2==0:
+    a=[list_of_smth[-2*i-3] for i in range((len(list_of_smth)-3)//2) ]
+else:
+    a=[list_of_smth[-2*i-2] for i in range((len(list_of_smth)-3)//2) ]
+print(a)
+#Упражнение 6
+print(set(list1)|set(list2))
+print(set(list3)|set(list4))
+#Упражнение 7 -1
+import numpy as np
+np.random.seed(2132131)
+array=np.random.rand(25)
+matrix=array.reshape(5,5)
+print(matrix)
+#Упражнение 8
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib as mpl
+mpl.rcParams['font.size']=16
+plt.figure(figsize=(7,7))
+x=np.linspace(min_x,max_x,N)
+y=f(x)
+plt.yscale('log')
+plt.ylim(min_y,max_y)
+y_1=(f(x+(max_x-min_x)/N)-f(x))/((max_x-min_x)/N)
+plt.grid(visible=True, which='major', axis='both', alpha=1)
+plt.grid(visible=True, which='minor', axis='both', alpha=0.5)
+plt.minorticks_on()
+plt.plot(x,y,'r')
+plt.plot(x,y_1)
+plt.savefig('funstion.jpeg')
+#Упражнение 9 -6
+#Упражнение 10
+def f(i,k):
+    s=1
+    for l in range(k):
+        s=list_of_smth[i+l]*s
+return(s**(1/k))
+a=[f(i,n-1) for i in range(len(list_of_smth)-n)]
+for i in range(n-1):
+    a=a.append(f(len(list_of_smth)-n+i, n-1-i))
+print(a)
+#Упражнение 12
+import pandas as pd
+
+f = pd.read_csv("video-games.csv")
+print('n_games')
+print(f.shape[0]-1)
+print('by_years')
+print(f.groupby(['year']).agg({'year': 'count'}))
+print('mean_price')
+print(f.groupby(['publisher']).agg({'price': 'mean'}).loc['EA'])
+print('age_max_price')
+print(f.groupby(['age_raiting']).agg({'price': 'max'}))
+print('n_games_by_age')
+print(f.groupby(['age_raiting']).agg({'price': 'count'}))
