@@ -1,0 +1,106 @@
+import pygame
+from pygame.draw import *
+from random import randint
+pygame.init()
+
+FPS = 120
+screen = pygame.display.set_mode((1200, 900))
+quality = 2 #этот параметр отвечает за колличество действий(нажатий мыши), которые можно осуществить за quality_2 кадров
+#цвет
+RED = (255, 0, 0)
+BLUE = (0, 0, 255)
+YELLOW = (255, 255, 0)
+GREEN = (0, 255, 0)
+MAGENTA = (255, 0, 255)
+CYAN = (0, 255, 255)
+BLACK = (0, 0, 0)
+COLORS = [RED, BLUE, YELLOW, GREEN, MAGENTA, CYAN]
+#массивы, встречающиеся в задаче
+x_amount = []
+y_amount = []
+r_amount = []
+color_amount = []
+v_x_amount=[]
+v_y_amount=[]
+x_1_amount = []
+y_1_amount = []
+r_1_amount = []
+v_1_x_amount=[]
+v_1_y_amount=[]
+
+pygame.display.update()
+clock = pygame.time.Clock()
+finished = False
+score = 0
+time = 0
+
+while not finished:
+    clock.tick(FPS*quality)
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            finished = True
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            for i in range(len(x_amount)-1):
+                if (event.pos[0]-x_amount[i])**2+(event.pos[1]-y_amount[i])**2<r_amount[i]**2:
+                    score=score+1
+                    x_amount.pop(i)
+                    y_amount.pop(i)
+                    r_amount.pop(i)
+                    color_amount.pop(i)
+                    v_x_amount.pop(i)
+                    v_y_amount.pop(i)
+                    break
+            for i in range(len(x_1_amount)-1):
+                if (event.pos[0]-x_1_amount[i])**2+(event.pos[1]-y_1_amount[i])**2<r_1_amount[i]**2:
+                    score=score+1
+                    x_1_amount.pop(i)
+                    y_1_amount.pop(i)
+                    r_1_amount.pop(i)
+                    v_1_x_amount.pop(i)
+                    v_1_y_amount.pop(i)
+                    break
+#движения обычных шаров
+    if time % quality == 0:
+        for i in range(len(x_amount)-1):
+            circle(screen, color_amount[i], (x_amount[i], y_amount[i]), r_amount[i])
+        pygame.display.update()
+        if time % (quality*FPS) == 0:
+            x_amount.append(randint(100,700))
+            y_amount.append(randint(100,500))
+            r_amount.append(randint(10,30))
+            color_amount.append(COLORS[randint(0, 5)])
+            v_x_amount.append(randint(-100,100)/100)
+            v_y_amount.append(randint(-100,100)/100)
+        for i in range(len(x_amount)-1):
+            x_amount[i] = v_x_amount[i] + x_amount[i]
+            y_amount[i] = v_y_amount[i] + y_amount[i]
+            if (x_amount[i] <= 0) or (x_amount[i] >= 1200):
+                x_amount[i] = x_amount[i] -  v_x_amount[i]
+                v_x_amount[i] = -v_x_amount[i]
+            if (y_amount[i] <= 0) or (y_amount[i] >= 900):
+                y_amount[i] = y_amount[i] -  v_y_amount[i]
+                v_y_amount[i] = -v_y_amount[i]
+# движения радужных шаров
+    if time % quality == 0:
+        for i in range(len(x_1_amount) - 1):
+            circle(screen, COLORS[randint(0, 5)], (x_1_amount[i], y_1_amount[i]), r_1_amount[i])
+        pygame.display.update()
+        if time % (quality * FPS * 5) == 0:
+            x_1_amount.append(randint(100, 700))
+            y_1_amount.append(randint(100, 500))
+            r_1_amount.append(randint(5, 10))
+            v_1_x_amount.append(randint(-200, 200) / 100)
+            v_1_y_amount.append(randint(-200, 200) / 100)
+        for i in range(len(x_1_amount) - 1):
+            x_1_amount[i] = v_1_x_amount[i] + x_1_amount[i]
+            y_1_amount[i] = v_1_y_amount[i] + y_1_amount[i]
+            if (x_1_amount[i] <= 0) or (x_1_amount[i] >= 1200):
+                x_1_amount[i] = x_1_amount[i] - v_1_x_amount[i]
+                v_1_x_amount[i] = -v_1_x_amount[i]
+            if (y_1_amount[i] <= 0) or (y_1_amount[i] >= 900):
+                y_1_amount[i] = y_1_amount[i] - v_1_y_amount[i]
+                v_1_y_amount[i] = -v_1_y_amount[i]
+        screen.fill(BLACK)
+    time = time + 1
+pygame.quit()
+print(score,'/',time//(quality*FPS) )
